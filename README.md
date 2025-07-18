@@ -10,6 +10,58 @@
 
 ## 📸 Visão Geral
 
+```mermaid
+
+flowchart TD
+
+    subgraph ESP32 [Dispositivo FermenStation]
+        A[Sensor de Temperatura DS18B20] --> B{Logica de Controle e Leitura};
+        B --> C[Reles Aquecimento, Resfriamento, Degelo];
+        B --> D[Memoria Persistente Preferences];
+        D -- Credenciais Wi-Fi, Device ID, Process ID --> B;
+        B -- Modo AP Provisionamento --> E[Servidor Web HTTP];
+        B -- Modo Station Operacao --> F[Conexao Wi-Fi Internet];
+    end
+
+    subgraph FlutterFlow App [Interface do Usuario]
+        G[Tela de Provisionamento] --> H{Scan Wi-Fi e Conexao Manual};
+        H -- Conexao Manual Usuario --> E;
+        H -- Requisicoes HTTP Configuracoes --> E;
+        I[Dashboard de Monitoramento] --> J{Gerenciamento de Receitas};
+        I --> K{Visualizacao de Dados Historicos};
+    end
+
+    subgraph Supabase [Backend como Servico]
+        L[Tabelas dispositivos, lote_receita, processos_ativos, historico_leituras] --> M[Funcoes RPC rpc_validate_device, rpc_get_active_process, rpc_controlar_fermentacao, etc.];
+        M --> L;
+    end
+
+    E -- Requisicoes HTTP GET/POST --> G;
+    F -- Requisicoes HTTPS RPCs --> M;
+    M -- Respostas RPC --> F;
+    M -- Dados CRUD --> I;
+    J -- Atualiza dados --> L;
+    K -- Consulta dados --> L;
+
+    style A fill:#f9f,stroke:#333,stroke-width:2px
+    style B fill:#bbf,stroke:#333,stroke-width:2px
+    style C fill:#f9f,stroke:#333,stroke-width:2px
+    style D fill:#f9f,stroke:#333,stroke-width:2px
+    style E fill:#ccf,stroke:#333,stroke-width:2px
+    style F fill:#ccf,stroke:#333,stroke-width:2px
+    style G fill:#9cf,stroke:#333,stroke-width:2px
+    style H fill:#9cf,stroke:#333,stroke-width:2px
+    style I fill:#9cf,stroke:#333,stroke-width:2px
+    style J fill:#9cf,stroke:#333,stroke-width:2px
+    style K fill:#9cf,stroke:#333,stroke-width:2px
+    style L fill:#cff,stroke:#333,stroke-width:2px
+    style M fill:#cff,stroke:#333,stroke-width:2px
+
+
+
+```
+
+
 <p align="center">
   <img src="documentacao/fermenstation_diagrama.png" alt="Diagrama do Projeto" width="400"/>
   <br/>
