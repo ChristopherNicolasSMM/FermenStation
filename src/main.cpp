@@ -1,11 +1,11 @@
-#include "include/main.h"
-#include "include/config.h"
-#include "include/log.h"
-#include "include/sensores.h"
-#include "include/controle.h"
-#include "include/storage.h"
-#include "include/wifi_manager.h"
-#include "include/api.h"
+#include "main.h"
+#include "config.h"
+#include "log.h"
+#include "sensores.h"
+#include "controle.h"
+#include "storage.h"
+#include "wifi_manager.h"
+#include "api.h"
 #include <ESPAsyncWebServer.h>
 #include <WiFi.h>
 

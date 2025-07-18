@@ -1,8 +1,10 @@
-#include "include/supabase.h"
-#include "include/config.h"
-#include "include/log.h"
+#include "supabase.h"
+#include "config.h"
+#include "log.h"
 #include <HTTPClient.h>
 #include <ArduinoJson.h>
+#include "storage.h"
+#include "controle.h"
 
 String callSupabaseRpc(const String &rpcName, const String &payload) {
     HTTPClient http;
@@ -29,12 +31,12 @@ bool validateDeviceOnSupabase() {
         addLog("Device ID não configurado. Não é possível validar no Supabase.");
         return false;
     }
-    StaticJsonDocument<256> doc;
+    JsonDocument doc;
     doc["p_device_id"] = savedDeviceId;
     String payload;
     serializeJson(doc, payload);
     String response = callSupabaseRpc("rpc_validate_device", payload);
-    StaticJsonDocument<256> responseDoc;
+    JsonDocument responseDoc;
     DeserializationError error = deserializeJson(responseDoc, response);
     if (error) {
         addLog("Erro ao parsear resposta de validação do dispositivo: " + String(error.f_str()));
@@ -54,12 +56,12 @@ bool getActiveProcessOnSupabase() {
         addLog("Device ID não configurado. Não é possível buscar processo ativo.");
         return false;
     }
-    StaticJsonDocument<256> doc;
+    JsonDocument doc;
     doc["p_device_id"] = savedDeviceId;
     String payload;
     serializeJson(doc, payload);
     String response = callSupabaseRpc("rpc_get_active_process", payload);
-    StaticJsonDocument<512> responseDoc;
+    JsonDocument responseDoc;
     DeserializationError error = deserializeJson(responseDoc, response);
     if (error) {
         addLog("Erro ao parsear resposta de processo ativo: " + String(error.f_str()));
@@ -85,7 +87,7 @@ void controlFermenstationOnSupabase(float tempFermentador, float tempAmbiente, f
         addLog("Nenhum processo ativo ou ID do processo. Não é possível controlar via Supabase.");
         return;
     }
-    StaticJsonDocument<512> doc;
+    JsonDocument doc;
     doc["p_device_id"] = savedDeviceId;
     doc["p_processo_id"] = savedProcessId;
     doc["p_temp_fermentador"] = tempFermentador;
@@ -97,7 +99,7 @@ void controlFermenstationOnSupabase(float tempFermentador, float tempAmbiente, f
     String payload;
     serializeJson(doc, payload);
     String response = callSupabaseRpc("rpc_controlar_fermentacao", payload);
-    StaticJsonDocument<512> responseDoc;
+    JsonDocument responseDoc;
     DeserializationError error = deserializeJson(responseDoc, response);
     if (error) {
         addLog("Erro ao parsear resposta de controle de fermentação: " + String(error.f_str()));

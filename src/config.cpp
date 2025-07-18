@@ -1,7 +1,11 @@
-#include "include/config.h"
+#include "config.h"
+#include "secrets.h"
+// ... existing code ...
 
-const char *SUPABASE_URL = "https://ftycjulkovsffzdxpcwf.supabase.co/rest/v1";
-const char *SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ0eWNqdWxrb3ZzZmZ6ZHhwY3dmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE0NTU4NDEsImV4cCI6MjA2NzAzMTg0MX0.vreBc6iAqfgampJMrbFx_6AUO6PtjuOMjJVGCvuyu-Q";
+// ... existing code ...
+
+const char *SUPABASE_URL = SECRET_SUPABASE_URL;
+const char *SUPABASE_ANON_KEY = SECRET_SUPABASE_ANON_KEY;
 
 const int PINO_FERMENTADOR = 16;
 const int PINO_AMBIENTE = 17;

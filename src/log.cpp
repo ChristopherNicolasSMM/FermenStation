@@ -1,5 +1,5 @@
-#include "include/log.h"
-#include "include/config.h"
+#include "log.h"
+#include "config.h"
 
 void addLog(String message) {
     logs[currentLogIndex] = message;

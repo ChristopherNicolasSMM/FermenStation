@@ -1,9 +1,9 @@
-#include "include/api.h"
-#include "include/config.h"
-#include "include/log.h"
-#include "include/storage.h"
-#include "include/controle.h"
-#include "include/sensores.h"
+#include "api.h"
+#include "config.h"
+#include "log.h"
+#include "storage.h"
+#include "controle.h"
+#include "sensores.h"
 #include <ArduinoJson.h>
 #include <ESPAsyncWebServer.h>
 
@@ -11,7 +11,7 @@ extern AsyncWebServer server;
 
 void handleGetConfig(AsyncWebServerRequest *request) {
     addLog("GET /api/config solicitado");
-    StaticJsonDocument<512> doc;
+    JsonDocument doc;
     doc["ssid"] = savedSsid;
     doc["deviceId"] = savedDeviceId;
     doc["processId"] = savedProcessId;
@@ -30,7 +30,7 @@ void handleGetConfig(AsyncWebServerRequest *request) {
 
 void handleGetLogs(AsyncWebServerRequest *request) {
     addLog("GET /api/logs solicitado");
-    StaticJsonDocument<2048> doc;
+    JsonDocument doc;
     JsonArray logArray = doc.to<JsonArray>();
     if (logBufferFull) {
         for (int i = currentLogIndex; i < MAX_LOGS; i++) {
@@ -55,7 +55,7 @@ void handleGetCurrentReadings(AsyncWebServerRequest *request) {
     float tempFermentador = readDSTemperature(tempFermentadorAddress, sensorFermentador);
     float tempAmbiente = readDSTemperature(tempAmbienteAddress, sensorAmbiente);
     float tempDegelo = readDSTemperature(tempDegeloAddress, sensorDegelo);
-    StaticJsonDocument<256> doc;
+    JsonDocument doc;
     doc["tempFermentador"] = tempFermentador;
     doc["tempAmbiente"] = tempAmbiente;
     doc["tempDegelo"] = tempDegelo;
@@ -77,7 +77,7 @@ void handleSaveConfig(AsyncWebServerRequest *request) {
             if (request->_tempObject != NULL) {
                 String body = *((String *)(request->_tempObject));
                 addLog("Body recebido: " + body);
-                StaticJsonDocument<512> doc;
+                JsonDocument doc;
                 DeserializationError error = deserializeJson(doc, body);
                 if (error) {
                     String errorMsg = "Erro ao parsear JSON: " + String(error.c_str());

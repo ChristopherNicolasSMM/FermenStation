@@ -1,7 +1,7 @@
-#include "include/controle.h"
-#include "include/config.h"
-#include "include/sensores.h"
-#include "include/log.h"
+#include "controle.h"
+#include "config.h"
+#include "sensores.h"
+#include "log.h"
 #include <DallasTemperature.h>
 
 void setRelayState(int relayPin, bool state) {

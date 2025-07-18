@@ -1,7 +1,7 @@
-#include "include/wifi_manager.h"
-#include "include/config.h"
-#include "include/log.h"
-#include "include/api.h"
+#include "wifi_manager.h"
+#include "config.h"
+#include "log.h"
+#include "api.h"
 #include <WiFi.h>
 #include <WiFiAP.h>
 

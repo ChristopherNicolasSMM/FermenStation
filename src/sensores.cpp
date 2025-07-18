@@ -1,5 +1,5 @@
-#include "include/sensores.h"
-#include "include/config.h"
+#include "sensores.h"
+#include "config.h"
 
 OneWire oneWireFermentador(PINO_FERMENTADOR);
 OneWire oneWireAmbiente(PINO_AMBIENTE);
